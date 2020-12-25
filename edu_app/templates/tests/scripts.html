@@ -1,0 +1,24 @@
+{% block body %}
+<div class="container">
+    <div class="col-md-8">
+        <h2>Home</h2>
+
+<form>
+
+    <input type="text" id="name" name="name" value="Name"><br>
+    <textarea name="Comment" rows="10" cols="30">
+  Comment goes here... The cat was playing in the garden.
+  </textarea><br>
+<input type="submit" value="Submit">
+
+  </form>
+<br><br><br><br>
+
+        <h2>{{ text }}</h2>
+        {% for post in posts %}
+            <p>{{ post.post }} - Posted by {{ post.author }}</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+  <h3>Categories</h3><br>
+
+
+  {% for category in categories.all %}
+            <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                <p class="card-text" style="font-size:1.2em;"><a href="/app/category/{{category.id}}">{{category.category_name}}</a></p>
+                <p class="card-text">{{category.category_description}}</p>
+                    <p><small class="text-muted float_right">Cat Id: {{category.id}}</small></p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{test.student_username}}</small>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+
+<style>.qcounts{
+  display:inline-block!important;
+}
+  </style>
+
+        {% endblock %}

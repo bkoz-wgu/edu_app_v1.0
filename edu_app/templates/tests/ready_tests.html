@@ -1,0 +1,35 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+    <h3>Tests</h3><br>
+    {% load template_extras %}
+
+    {% if user.username == student.username or request.user|has_group:"Tutor"  %}
+      <div>    <div class="col-md-12">
+            {% if student_has_no_tests %}
+              <p class="card-text" style="font-size:1.2em;">You have no tests ready to take.</p>
+            {% endif %}
+            {% for test in tests.all %}
+
+              <div class="card mb-4 shadow-sm">
+                      <div class="card-body">
+                        <p class="take-test-button" style="float:right;">  <button>Take Test</button></p>
+                  <p class="card-text" style="font-size:1.2em;"><a href="/app/test_results/{{test.id}}">{{test.test_name}}</a></p>
+
+                      <p><small class="text-muted float_right">Test Id: {{test.id}}</small></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{test.student_username}}</small>
+
+                  </div>
+                </div>
+              </div>
+            {% endfor %}            </div>
+
+    <br><br><br><br>
+      </div>
+
+    {% else %}
+        <p>You do not access to view this page.</p>
+    {% endif %}
+
+    {% endblock %}

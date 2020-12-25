@@ -1,0 +1,175 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+  {% load template_extras %}
+
+{% if request.user|has_group:"Tutor"  %}
+    <h3>Create Question</h3><br>
+  <div class="row">
+
+
+
+
+                <div class="col-md-12">
+                  <div class="card mb-4 shadow-sm" style="padding:1em 2em;">
+
+  <form style="border:none;" id="CreateTestForm">
+    <p>Choose your question category:</p>
+    {% for category in categories.all %}
+<input type="radio" id="cat{{category.id}}" name="category" value="{{category.category_name}}">
+    <label for="cat{{category.id}}" class="label_with_padding">{{category.category_name}}</label>
+    {% endfor %}
+    <br><br>
+    <label for="question_body">Question Body:</label><br>
+    <textarea id="question_body" name="question_body" rows="4" cols="50">Enter the body of your question here.</textarea><br><br>
+
+    <p>Answer Choices</p>
+    <input type="radio" id="choice_A" name="correct_answer" value="A">
+    <label for="answer_choice_1" class="before-answer-label">A)</label>
+    <input type="text" id="answer_choice_1" name="answer_choice_1"><br>
+
+    <input type="radio" id="choice_B" name="correct_answer" value="B">
+    <label for="answer_choice_2" class="before-answer-label">B)</label>
+    <input type="text" id="answer_choice_2" name="answer_choice_2"><br>
+
+    <input type="radio" id="choice_C" name="correct_answer" value="C">
+    <label for="answer_choice_3" class="before-answer-label">C)</label>
+    <input type="text" id="answer_choice_3" name="answer_choice_3"><br>
+
+    <input type="radio" id="choice_D" name="correct_answer" value="D">
+    <label for="answer_choice_4" class="before-answer-label">D)</label>
+    <input type="text" id="answer_choice_4" name="answer_choice_4"><br><br>
+
+
+
+  <br><br>
+  <input type="button" id="button" value="Submit"><br>
+  <br><p id="submit_message">
+</p>
+                </form>
+
+
+                  </div>
+                </div>
+              </div>
+<script>
+  function switchTestType(testType) {
+    var elements = document.getElementsByClassName("category_checkbox");
+    var element_labels = document.getElementsByClassName("category_checkbox_label");
+
+    if (testType == "AlgoTest"){
+        for (var i = 0 ; i < elements.length ; i++) {
+          elements[i].disabled = true;
+          element_labels[i].classList.add("disabled")
+                }
+       document.getElementById("categories_area").classList.add("disabled");
+    }
+    if (testType == "CustomTest"){
+      for (var i = 0 ; i < elements.length ; i++) {
+                elements[i].disabled = false;
+                element_labels[i].classList.remove("disabled")
+
+              }
+     document.getElementById("categories_area").classList.remove("disabled");
+
+    }
+  }
+
+  var $j = jQuery.noConflict();
+
+  $j("#button").click(function(e) {
+      e.preventDefault();
+
+      var formElement = document.getElementById("CreateTestForm");
+      var    inputElements = formElement.getElementsByTagName("input");
+      var    jsonObject = {};
+      jsonObject["csrfmiddlewaretoken"] =  "{{ csrf_token }}";
+      jsonObject["question_body"] =  document.getElementById("question_body").value;
+
+      for(var i = 0; i < inputElements.length; i++){
+          var inputElement = inputElements[i];
+          if (inputElement.type=="radio"){
+                if (inputElement.checked){
+                    jsonObject[inputElement.name] = inputElement.value;
+                }
+                else{
+                    if (jsonObject[inputElement.name] == null || jsonObject[inputElement.name] == "null" ){
+                    jsonObject[inputElement.name] = "null";
+                }
+              }
+          }
+          else if (inputElement.type=="checkbox"){
+            if (inputElement.checked){
+              jsonObject[inputElement.id] = "true";
+            }
+            else{
+              jsonObject[inputElement.id] = "false";
+            }
+          }
+          else if (inputElement.type=="text"){
+          jsonObject[inputElement.name] = inputElement.value;
+
+        }
+
+      }
+      // return JSON.stringify(jsonObject);
+      console.log(jsonObject);
+    //  formElement.style.display= "none";
+    $j.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            url: formElement.url,
+            data: JSON.stringify(jsonObject),
+            success: function (data) {
+
+                 if (!data.is_valid_category){
+                  document.getElementById("submit_message").innerHTML="You must select a category for your question.";
+                  document.getElementById("submit_message").classList.add("error_found");
+                }
+                else if (!data.is_valid_correct_answer) {
+                    document.getElementById("submit_message").innerHTML="You must mark the correct answer choice.";
+                    document.getElementById("submit_message").classList.add("error_found");
+                  }
+                  else if (data.empty_blanks_found) {
+                      document.getElementById("submit_message").innerHTML="You must fill all form fields.";
+                      document.getElementById("submit_message").classList.add("error_found");
+                    }
+                    else if (data.question_is_default) {
+                        document.getElementById("submit_message").innerHTML="You must create a new question.";
+                        document.getElementById("submit_message").classList.add("error_found");
+                      }
+                     else if (data.is_all_data_valid) {
+                     document.getElementById("submit_message").innerHTML="Question Created Successfully.";
+                     document.getElementById("submit_message").classList.remove("error_found");
+                 }}
+               });
+             });
+  </script>
+
+
+  <style>
+    .disabled{
+      color:#aeaeae;
+    }
+    .hidden{
+      display:none
+    }
+    .error_found{
+      color:red;
+    }
+    .before-answer-label{
+      padding:10px
+  }
+     .label_with_padding{
+       padding-right:30px;
+     }
+    </style>
+
+
+
+        {% else %}
+            <p>You must have Tutor-level access to view this page.</p>
+        {% endif %}
+
+        {% endblock %}

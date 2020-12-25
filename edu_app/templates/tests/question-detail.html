@@ -1,0 +1,159 @@
+
+{% extends 'tests/base.html' %}
+
+{% block content %}
+    <h3>Q-ID: {{question.id}}<span style="float:right; font-size:0.8em; padding:10px;">{{category}}</span></h3><br>
+    {% load template_extras %}
+
+<div class="row">
+  <div class="col-md-7">
+    <canvas id="canvas"></canvas>
+  </div>
+  <div class="col-md-5"><br><br>
+  <canvas id="pie-chart-area"></canvas>
+</div>
+
+</div>
+
+ <div class="row">
+
+
+  <div class="col-md-12">
+
+              <div class="card-body">
+                <br><br><br>
+
+                <p class="score-area">Ans: {{question.correct_answer}}</p>
+          <h3 class="card-text" style="font-size:1.2em;max-width:80%;">{{question.question_copy}}</h3>
+              <p><small class="text-muted float_right"></small></p><br>
+              <p class="card-text" style="margin-left:20px;">A) {{question.question_choice_1}}</p>
+              <p class="card-text" style="margin-left:20px;">B) {{question.question_choice_2}}</p>
+              <p class="card-text" style="margin-left:20px;">C) {{question.question_choice_3}}</p>
+              <p class="card-text" style="margin-left:20px;">D) {{question.question_choice_4}}</p>
+
+
+        </div>
+        <br><br><br><br>  <p class="card-text"><a href="/app/category/{{question.category_id}}">See more questions like this</a></p>
+
+
+
+
+</div>
+</div>
+
+
+
+<script>
+
+
+  window.chartColors = {
+  red: 'rgb(255, 99, 132)',
+  orange: 'rgb(255, 159, 64)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)',
+  grey: 'rgb(201, 203, 207)',
+  black: 'rgb(0, 0, 0)'
+  };
+  var colorNames = Object.keys(window.chartColors);
+
+
+  var randomScalingFactor = function() {
+    return Math.round(Math.random() * 100);
+  };
+
+  var config = {
+    type: 'pie',
+    data: {
+      datasets: [{
+        data: [
+        {{data.correct_attempts}},
+        {{data.incorrect_attempts}},
+        {{data.omitted_attempts}}
+        ],
+        backgroundColor: [
+          window.chartColors.green,
+          window.chartColors.red,
+          window.chartColors.yellow,
+        ],
+      }],
+      title: {
+        display: true,
+        text: 'Result Distribution',
+        fontSize:18,
+        fontStyle:'normal'
+      },
+      labels: [
+        'Correct',
+        'Incorrect',
+        'Ommitted',
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  };
+
+      var barChartData = {
+        labels: ['A','B','C','D'],
+        datasets: [{
+          label: 'Student Answers',
+          backgroundColor: [
+            window.chartColors.green,
+            window.chartColors.blue,
+            window.chartColors.yellow,
+            window.chartColors.purple,
+          ],
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: [ {{data.answered_A}},
+          {{data.answered_B}},
+          {{data.answered_C}},
+          {{data.answered_D}}
+        ]
+
+        }]
+      };
+
+
+  window.onload = function() {
+    var ctx = document.getElementById('pie-chart-area').getContext('2d');
+    window.myPie = new Chart(ctx, config);
+    var ctx2 = document.getElementById('canvas').getContext('2d');
+    window.myBar = new Chart(ctx2, {
+      type: 'bar',
+      data: barChartData,
+      options: {
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        title: {
+					display: true,
+					text: 'Student Answers',
+          fontSize:18,
+          fontStyle:'normal'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // the data minimum used for determining the ticks is Math.min(dataMin, suggestedMin)
+              beginAtZero: true,
+              offset:true
+            }
+          }]
+        }
+      }
+    });
+  };
+
+
+
+
+</script>
+
+
+
+
+    {% endblock %}

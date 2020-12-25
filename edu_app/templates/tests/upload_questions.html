@@ -1,0 +1,28 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+      <h3>Upload Questions</h3><br>
+
+      <!--  <form method="POST" class="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default" style="border:solid 1px;">Upload & Import</button>
+        </form>-->
+        {% if message %}
+        <p>{{message}}</p>
+
+
+        {% else %}
+
+        <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|linebreaks }}
+                <button type="submit">Save</button>
+        </form>
+        {% endif %}
+
+
+{% endblock %}

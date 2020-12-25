@@ -1,0 +1,47 @@
+What is the mean of 12, 10, 15, 4, and 9?|1|9|9.5|10|12|C
+What is the mode of the following data set? (1, 1, 1, 2, 4, 7, 7, 8, 8, 8, 9, 11, 12, 12)|1|1|8|1 and 8|8 and 12|C
+An outlier is added to a data set. What happens to the standard deviation of the set?|1|The standard deviation will be unaffected. |The standard deviation increases|The standard deviation decreases|The standard deviation will triple.|B
+An outlier is removed from a data set. Which value is most likely to be affected?|1|mean|median|mode|standard deviation|A
+What is the mean of the following data set? (2, 2, 5, 16, 12, 10)|1|4.5|7.8|10|10.5|B
+What is the median of the following data set? (2, 2, 5, 16, 12, 10)|1|8.5|10|10.5|12|C
+What is the mode of the following data set? (2, 2, 5, 16, 12, 10)|1|2|5|12|10|A
+Cheryl has designed a survey to see how many kids each family has in her neighborhood, and if they plan to have more in the future. She conducts her survey over the course of 4 Saturdays at the local playground by canvassing all the park visitors. What is wrong with Cheryl's survey design?|1|There is no problem with her survey.|The questions Gale is asking are too personal.|Gale's choice of location will skew the results.|Gale should use a paper or online survey instead of in-person.|C
+If Clark has a bag of 3 green, 4 red, and 5 blue marbles, what is the probability he gets a green or a blue if he chooses one at random?|1|7/12|5/12|3/4|2/3|D
+Gale has a penny and a nickel. What is the probability that she flips both coins and they both land on heads?|1|1/4|1/2|3/5|1/6|A
+9x+2=. Find x. |2|1|2|3|4|B
+9x+2=11. Find x. |2|1|2|3|4|A
+Factor x^2+5x+6|2|(x+1)(x+6)|(x+2)(x-3)|(x-1)(x+6)|(x+2)(x+3)|D
+Simplify (2x+2)(x-2)|2|x^2+4x+4|2x^2+2x+4|2x^2+4x-4|2x^2-2x-4|D
+Simplify 4x(x+2)|2|6x|4x+4|4x^2+8|4x^2+8x|D
+If x=2 and y=5, what is 10x-4y?|2|0|2|4|8|A
+Tracy bikes at a rate of 12 miles per hour. How many miles does she get in 20 minutes?|2|2 miles|2.2 miles|2.4 miles|2.6 miles|C
+Simplify (x+4)(x-4)|2|8x|x^2-16|x^2+8x+16|x^2+8x-16|B
+If 3x-2=16, what is 2x?|2|4|6|12|14|C
+Garrett can build 1 birdhouse in 45 minutes. How many birdhouses can he build in 6 hours?|2|5|6|7|8|D
+Simplify (2x-3)(4x)|2|8x+12|8x^2-12x|8x-12|6x^2-12x|B
+If y=2x and 12=2x-4, what is 2x+2y?|2|18|32|48|60|C
+Find the area of a trapezoid with s1=4, s2=6, h=4.|3|16|20|22|24|B
+What is the circumference of a circle whose diameter is 2m?|3|pi|1/2pi|2pi|3pi|D
+what is the volume of a right cone which has a height of 10 and a radius of 3|3|30pi|90pi|120pi|300pi|A
+Ian is wrapping a present for his sister. Her gift is in a rectangular box with sides measuring 12in, 15in, and 9in. How many square feet of wrapping paper does Ian need to completely wrap her gift?|3|4.875|5.25|5.875|6.25|C
+If a circle has a radius of 4, what is its area?|3|4pi|8pi|16pi|20pi|C
+A bird flies 3 miles west and 4 miles south. How many miles distance is it from where it started?|3|3.5|4|4.5|5|D
+Fred is building a new fence for his yard measuring 30 feet by 60 feet. If he encloses the entire yard with the fence, how many yards of fence does he need?|3|40|60|80|90|B
+What is the equation for the line with a slope of 2 that passes through point (3,4)?|3|y=3x+4|y=2x-4|y=2x+2|y=2x-2|C
+What is the slope a line perpendicular to 2x-3y=12?|3|2/3|-2/3|3/2|-3/2|D
+What are the x-intercepts of x^2-6x+8?|3|2 and 4|-2 and -4|2 and 6 |-2 and -6|A
+How many x-intercepts exist in f(x)=(x+2)(x+3)(x+2)|3|0|1|2|3|C
+What is the distance between (2,4) and (6,7)?|3|5|6|4|8|A
+If sin(×)=2, what is cos(90-x)?|4|2|sqrt(3)|1|1/2|A
+Find the hypotenuse of a right triangle which has legs equal to 12 and 16 units.|4|18|20|22|24|B
+Find the side c of a triangle with a=12 and b=5.|4|8|13|16|17|B
+A right triangle has sides a=5 and c=13, what is the length of side b?|4|6|7|8|12|D
+If cos(x)=sqrt(3) / 2, what is sin(x)?|4|1/2|1|2|sqrt(3)|A
+If tan(x) = 1, what is x?|4|30|45|60|90|B
+If cos(45)=2/x, what is x?|4|1/2|1|2|sqrt(3)|C
+For a right triangle, if a=6 and b=8, what is c?|4|9|10|12|14|B
+For a right triangle, if a=sqrt(3) and b=1, what is c?|4|1/2|1|2|sqrt(3)|B
+For a right triangle,  if a=sqrt(3) and c =2, what is b?|4|1/2|1|2|sqrt(3)|C
+For a right triangle, if a=2 and b=2, what is the angle between them?|4|30|45|60|90|D
+For a right triangle, if a=2 and b=2, what is the angle of C?|4|30|45|60|90|B
+For a right triangle, if b=1 and c=2, what is a?|4|1/2|1|sqrt(2)|sqrt(3)|D

@@ -1,0 +1,47 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+    <h3>Tests</h3><br>
+    {% load template_extras %}
+
+{% if request.user|has_group:"Tutor"  %}
+      <div>    <div class="col-md-12">
+
+
+
+
+
+            {% for test in tests.all %}
+
+
+
+              <div class="card mb-4 shadow-sm">
+                      <div class="card-body">
+                        <p class="score-area">{{test.score}}%</p>
+                  <p class="card-text" style="font-size:1.2em;"><a href="/app/test_results/{{test.id}}">{{test.test_name}}</a></p>
+
+                      <p><small class="text-muted float_right">Test Id: {{test.id}}</small></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{test.student_username}}</small>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}            </div>
+
+    <br><br><br><br>
+      </div>
+<style>
+
+  .upload_test, .upload_area, .create_test{
+     display:inline-block!important;
+   }
+
+
+</style>
+
+
+    {% else %}
+        <p>You must have Tutor-level access to view this page.</p>
+    {% endif %}
+
+    {% endblock %}

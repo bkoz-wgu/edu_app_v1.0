@@ -1,0 +1,27 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+  <h3>Students</h3><br>
+
+
+      {% for student in students.all %}
+
+            <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                      <p class="score-area">{{student.average_total}}%</p>
+                <p class="card-text" style="font-size:1.2em;"><a href="/app/student/{{student.id}}">{{student.student_name}} ({{student.username}})</a></p>
+                <p class="card-text">Prob & Stats:<b> {{student.average_t1}}</b></p>
+                <p class="card-text">Algebra: <b>{{student.average_t2}}</b></p>
+                <p class="card-text">Geometry: <b>{{student.average_t3}}</b></p>
+                <p class="card-text">Trigonometry: <b>{{student.average_t4}}</b></p>
+
+                    <p><small class="text-muted float_right">Stu Id: {{student.student_id}}</small></p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{test.student_username}}</small>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+    <h3>Classes</h3><br>
+    {% load template_extras %}
+
+{% if request.user|has_group:"Tutor"  %}
+      <div>    <div class="col-md-12">
+
+            {% for class in classes.all %}
+
+              <div class="card mb-4 shadow-sm">
+                      <div class="card-body">
+                        <p class="score-area">{{class.average_score}}</p>
+                  <p class="card-text" style="font-size:1.2em;"><a href="/app/classes/{{class.id}}">{{class.section_name}}</a></p>
+
+                      <p><small class="text-muted float_right">Class Id: {{class.id}}</small></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{class.teacher_username}}</small>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}            </div>
+
+    <br><br><br><br>
+      </div>
+<style>
+
+</style>
+
+
+    {% else %}
+        <p>You must have Tutor-level access to view this page.</p>
+    {% endif %}
+
+    {% endblock %}

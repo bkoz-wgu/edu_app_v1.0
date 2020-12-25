@@ -1,0 +1,29 @@
+{% extends 'tests/base.html' %}
+
+{% block content %}
+
+{% load template_extras %}
+
+    {% if user.is_authenticated %}
+
+    <p>Welcome,   <b>{{ user.get_username }}</b>. Thanks for logging in.</p>
+
+
+<br>
+        {% if request.user|has_group:"Tutor" %}
+            <b>    <p>You are Registered as a Tutor</p></b>
+      {% endif %}
+    <!--           {% if user.username == "bkozura" %}
+   <p>  match found</p>
+          {% endif %}
+
+          {% if user.username == "bkozura1" or request.user|has_group:"Tutor"  %}
+        <p>  match found OR has access</p>
+          {% endif %}
+-->
+      <p>   Session Started at: {{ user.last_login }}</p>
+      {% else %}
+       Welcome to our app! Please <a href="{% url 'login' %}">log in</a> to get started.
+        {% endif %}
+
+        {% endblock %}

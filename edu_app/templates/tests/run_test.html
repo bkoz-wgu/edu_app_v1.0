@@ -1,0 +1,119 @@
+{% extends 'tests/base.html' %}
+
+{% load template_extras %}
+
+
+{% block content %}
+<h3>Run Test</h3>
+
+<br><br>
+    {% if user.username == test.student_username or request.user|has_group:"Tutor"  %}
+
+      <div class="row">
+
+                <div class="col-md-12">
+                  <div class="card mb-4 shadow-sm">
+
+  <form id="RunTestForm"><br>
+    <label for="test_id" class="hidden" style="padding-left:20px;">Test ID:&nbsp; </label>
+    <input type="text" id="test_id" name="test_id" disabled  value="{{test.id}}" class="hidden">
+    <label for="uname" class="hidden" style="padding-left:5%" >Student Username:&nbsp; </label>
+    <input type="text" id="uname" name="uname" disabled  value="{{test.student_username}}" class="hidden">
+    <label for="goal" class="hidden" style="padding-left:5%" >Goal Score:&nbsp; </label>
+    <input type="text" id="goal" name="goal" disabled value="80" class="hidden"><br>
+
+
+<br><br>
+          <ol>
+          {% for question in questions.all|slice:"20" %}
+          <li>    <p> {{question.question_copy}}
+              </p>
+                  <input type="radio" id="{{question.id}}.A" name="{{question.id}}" value="A">
+                  <label for="{{question.id}}.A">{{question.question_choice_1 }}</label><br>
+                  <input type="radio" id="{{question.id}}.B" name="{{question.id}}" value="B">
+                  <label for="{{question.id}}.B">{{question.question_choice_2}}</label><br>
+                  <input type="radio" id="{{question.id}}.C" name="{{question.id}}" value="C">
+                  <label for="{{question.id}}.C">{{question.question_choice_3}}</label><br>
+                  <input type="radio" id="{{question.id}}.D" name="{{question.id}}" value="D">
+                  <label for="{{question.id}}.D">{{question.question_choice_4}}</label>
+</li><br><br><br>
+  {% endfor %}</ol>
+  <input type="button" id="button" value="Submit"style="margin-left:20px;">
+<br><br>
+</div>
+
+<br><br><br><br>
+</div></div>
+
+
+
+{% else %}
+<p>You do not have access to view this page.</p>
+{% endif %}
+
+
+<script>
+  var $j = jQuery.noConflict();
+
+  $j("#button").click(function(e) {
+      e.preventDefault();
+
+
+        var formElement = document.getElementById("RunTestForm");
+        var    inputElements = formElement.getElementsByTagName("input");
+        var    jsonObject = {};
+        jsonObject["csrfmiddlewaretoken"] =  "{{ csrf_token }}";
+
+
+
+        for(var i = 0; i < inputElements.length; i++){
+            var inputElement = inputElements[i];
+              if (inputElement.type=="radio"){
+                    if (inputElement.checked){
+                        jsonObject[inputElement.name] = inputElement.value;
+                    }
+                    else{
+                        if (jsonObject[inputElement.name] == null || jsonObject[inputElement.name] == "null" ){
+                        jsonObject[inputElement.name] = "null";
+                    }
+                  }
+              }
+          }
+          for(var i = 0; i < inputElements.length; i++){
+              var inputElement = inputElements[i];
+              if (inputElement.type == "text"){
+                  jsonObject[inputElement.name] = inputElement.value;
+
+              }
+            }
+
+        // return JSON.stringify(jsonObject);
+        console.log(jsonObject);
+      //  formElement.style.display= "none";
+
+        $j.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                url: formElement.url,
+                data: JSON.stringify(jsonObject),
+                success: function(result) {
+                        document.write(result)
+                        }
+        });
+
+
+      });
+
+
+    </script>
+
+    <style>
+    //  .hidden{display:none;}
+
+    //  form .label{ padding-left:16px;padding-top:10px;
+
+      }
+      </style>
+
+      {% endblock %}

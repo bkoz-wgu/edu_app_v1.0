@@ -1,0 +1,257 @@
+
+    <style>
+    .inline-block{
+      display: inline-block;
+    }
+    .fal,.fas,.far, .fa {
+      padding:0 10px;
+    }
+    .tests-details-section{
+      padding:10px;
+      margin-top:30px;
+    }
+    .align-right{
+      text-align:right!important;
+    }
+    .upper-section{
+      min-height:400px;
+      margin-top:0;
+    }
+    .card-body.shaded{
+      background-color:#f7f7f7;
+    }
+
+    .card-score{
+      font-size: 1.5em;
+      font-weight: 600;
+      text-align:center;
+    }
+    .cat-text{
+      font-size: 1.2em;
+      text-align:center;
+    }
+    .est-score-area{
+      display:inline-block!Important;
+    }
+
+    canvas{
+          padding-right: 2em;
+    }
+    .col-20-perc{width:19%;}
+    .col-60-perc{width:80%!important;}
+    </style>
+    {% extends 'tests/base.html' %}
+
+
+    {% block content %}
+
+    {% load template_extras %}
+    {% if user.username == student.username or request.user|has_group:"Tutor"  %}
+
+
+        <h4>{{student.student_name}} ({{student.username}})</h4><br>
+     <div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card mb-3 shadow-sm"><div class="card-body"><p class="cat-text">{{categories.0.category_name}}</p><p class="card-score">{{student.average_t1}}</p></div></div></div>
+      <div class="col-md-3">
+        <div class="card mb-3 shadow-sm"><div class="card-body"><p class="cat-text">{{categories.1.category_name}}</p><p class="card-score">{{student.average_t2}}</p></div></div></div>
+      <div class="col-md-3">
+        <div class="card mb-3 shadow-sm"><div class="card-body"><p class="cat-text">{{categories.2.category_name}}</p><p class="card-score">{{student.average_t3}}</p></div></div></div>
+      <div class="col-md-3">
+        <div class="card mb-3 shadow-sm"><div class="card-body"><p class="cat-text">{{categories.3.category_name}}</p><p class="card-score">{{student.average_t4}}</p></div></div></div>
+    </div>
+        <div>   <canvas id="student_test_data" data-url="/app/student_test_data/{{student.id}}"></canvas>  </div>
+
+
+
+          <div class="row">
+            <div class="col-md-12"><br><br><br>
+              <h3>Test History</h3><br>
+
+
+              {% for test in ungraded_tests.all %}
+
+                <div class="card mb-4 shadow-sm">
+                        <div class="card-body shaded">
+                          <p class="take-test-button" style="float:right;"><a href="/app/run_test/{{test.id}}">  <button>Take Test</button></a></p>
+                    <p class="card-text" style="font-size:1.2em;">{{test.test_name}}</p>
+
+                        <p><small class="text-muted float_right">Test Id: {{test.id}}</small></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted">{{test.student_username}}</small>
+
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+
+
+              {% for test in tests %}
+              <div class="card mb-4 shadow-sm">
+
+
+                <div class="card-body">
+                  <p class="score-area">{{test.score}}%</p>
+                <p class="card-text"><a href="/app/test_results/{{test.id}}">{{test.test_name}}</a></p>
+                    <p><small class="text-muted">Test Id: {{test.id}}</small></p>
+                </div>
+              </div>
+
+
+                    {% endfor %}
+            </div>
+
+          </div>
+        </div>
+
+
+        {% else %}
+            <p>You must have Tutor-level access to view this page.</p>
+        {% endif %}
+
+        <script>
+
+                      window.chartColors = {
+                      red: 'rgb(255, 99, 132)',
+                      orange: 'rgb(255, 159, 64)',
+                      yellow: 'rgb(255, 205, 86)',
+                      green: 'rgb(75, 192, 192)',
+                      blue: 'rgb(54, 162, 235)',
+                      purple: 'rgb(153, 102, 255)',
+                      grey: 'rgb(201, 203, 207)',
+                      black: 'rgb(0, 0, 0)'
+                      };
+                      var colorNames = Object.keys(window.chartColors);
+
+
+
+
+
+
+          var $testChart = $("#student_test_data");
+               $.ajax({
+                 url: $testChart.data("url"),
+                 success: function (data) {
+
+                   var ctx = $testChart[0].getContext("2d");
+
+                   new Chart(ctx, {
+                     type: 'line',
+                     data: {
+                       labels: data.test_ids,
+                       datasets: [{
+
+                          label: data.labels[1],
+                         backgroundColor: window.chartColors.red,
+                         borderColor: window.chartColors.red,
+                         data: data.cat1_scores,
+                         fill: false,
+                       },
+                        {
+                         label: data.labels[2],
+                         backgroundColor: window.chartColors.green,
+                         borderColor: window.chartColors.green,
+                         data: data.cat2_scores,
+                         fill: false,
+                       },
+                        {
+                         label: data.labels[3],
+                         backgroundColor: window.chartColors.yellow,
+                         borderColor: window.chartColors.yellow,
+                         data: data.cat3_scores,
+                         fill: false,
+                       }, {
+                         label: data.labels[4],
+                         fill: false,
+                         backgroundColor: window.chartColors.blue,
+                         borderColor: window.chartColors.blue,
+                         data: data.cat4_scores,
+                       },
+                       {
+                         label: "Overall Score",
+                         fill: false,
+                         backgroundColor: window.chartColors.black,
+                         borderColor: window.chartColors.black,
+                         data: data.test_scores,
+                       },
+                       {
+                         label: "Goal Score",
+                         fill: false,
+                         backgroundColor: window.chartColors.grey,
+                         borderColor: window.chartColors.grey,
+                         data: data.goal_scores,
+                       }]
+                     },
+                     options: {
+                       responsive: true,
+                       title: {
+                         display: true,
+                         text: 'Student Scores',
+                         fontSize:18,
+                         fontStyle:'normal'
+                       },
+                       tooltips: {
+                         mode: 'index',
+                         intersect: false,
+                       },
+                       hover: {
+                         mode: 'nearest',
+                         intersect: true
+                       },
+                       scales: {
+                         xAxes: [{
+                           display: true,
+                           scaleLabel: {
+                             display: true,
+                             labelString: 'Test ID'
+                           }
+                         }],
+                         yAxes: [{
+                           display: true,
+                           scaleLabel: {
+                             display: true,
+                             labelString: 'Score'
+                           }
+                         }]
+                       }
+                     }
+                   });
+
+
+          var COLORS = [
+          		'#4dc9f6',
+          		'#f67019',
+          		'#f53794',
+          		'#537bc4',
+          		'#acc236',
+          		'#166a8f',
+          		'#00a950',
+          		'#58595b',
+          		'#8549ba'
+          	];
+
+
+
+
+
+
+
+                               }
+                             });
+       $( document ).ready(function() {
+           if (document.getElementById("estimated_score").innerHTML =="n/a"){
+             document.getElementsByClassName("hidden_unless_no_data").style.display="block";
+             document.getElementsByClassName("hidden_if_no_data").style.display="none!important;";
+           }
+       });
+
+
+
+        	</script>
+
+
+
+
+
+        {% endblock %}

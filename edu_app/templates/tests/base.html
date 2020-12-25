@@ -1,0 +1,259 @@
+{% load template_extras %}
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>Trinity Tutoring</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/5230191e08.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <style>
+      @media(min-width:1400px){}
+      .upper-section .col-md-8{
+        padding-right:6%;
+      }
+    }
+
+      h1{
+        font-size: 2em!important;
+      }
+    .jumbotron {
+    padding: 1em 2em!important;
+  }
+  .jumbotron .col-md-1 p{
+    margin:0;
+  }
+
+  .header-title{
+    font-size:2em!important;
+  }
+
+  .nav-row{
+padding:10px;
+font-size:1.1em;
+  }
+
+  .nav-row a:hover{
+text-decoration:none!important;
+  }
+
+:not(.naw-row) i{
+  padding:0 10px!important;
+}
+
+
+  .nav-icon{
+width:20%!Important;
+text-align:center;
+display:inline-block!Important;
+  }
+  .nav-text{
+    width:78%!Important;
+    display:inline-block!Important;
+
+  }
+
+    .inline-block{
+      display: inline-block;
+    }
+    .fal,.fas,.far, .fa {
+    }
+    .tests-details-section{
+      padding:10px;
+      margin-top:30px;
+    }
+
+    .hidden_unless_no_data, .qcounts, .card.upload_area{display:none}
+    .create_test, .upload_questions, .upload_test, .upload_area, .est-score-area{
+      display:none;
+      text-align:center;
+    }
+
+
+
+    .cat-card{
+      width:25%;
+    }
+    .est-score{
+      font-size:1.8em;
+      font-weight:800;
+    }
+    .float_right{
+      position:absolute;right:20px;
+      bottom:10px;
+    }
+    .score-area{
+      float:right;
+      font-size:1.5em;
+      font-weight:600;
+    }
+    .col-20-perc{width:19%;}
+    .col-60-perc{width:60%;}
+    </style>
+
+    <!-- Custom styles for this template -->
+  </head>
+  <body style="max-width:100%;overflow-x:hidden;">
+    <section class="jumbotron">
+        <div  class="col-md-10 inline-block" >
+          <h1 class="header-title">Trinity Tutoring Services</h1></div>
+          <div  class="col-md-1 inline-block" >
+            {% if user.is_authenticated %}
+
+     <p class="card-text">{{user.username}}</p>
+   <p><a href="{% url 'logout' %}">Log Out</a></p>
+    {% endif %}
+ </div>
+    </section>
+
+
+<main role="main" style="max-width:90%;margin:auto">
+
+
+
+<section class="upper-section">
+  <div class="row">
+  <div  class="col-md-2 nav-area" >
+    {% if request.user|has_group:"Tutor"  %}
+    <div class="nav-row">
+      <a href="/app/class/{{user.username}}">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-chart-area"></i>
+        </div>
+        <div class="nav-text col-md-8">Dashboard</div>
+      </a>
+    </div>
+    <div class="nav-row">
+      <a href="/app/students/">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="nav-text col-md-8">Students</div>
+      </a>
+    </div>
+    <div class="nav-row">
+      <a href="/app/classes/">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <div class="nav-text col-md-8">Classes</div>
+      </a>
+    </div>
+<!--  <div class="nav-row">
+    <a href="/app/tutors/">
+      <div class="nav-icon col-md-4">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <div class="nav-text col-md-8">Tutors</div>
+    </a>
+  </div>-->
+
+    <div class="nav-row">
+      <a href="/app/tests/">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="nav-text col-md-8">Tests</div>
+      </a>
+    </div>
+    <div class="nav-row">
+      <a href="/app/questions/">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-question-circle"></i>
+        </div>
+        <div class="nav-text col-md-8">Questions</div>
+      </a>
+    </div>
+    <div class="nav-row">
+      <a href="/app/categories/">
+        <div class="nav-icon col-md-4">
+          <i class="fas fa-list-ul"></i>
+        </div>
+        <div class="nav-text col-md-8">Categories</div>
+      </a>
+    </div>
+
+
+
+
+
+  {% elif user.is_authenticated %}
+
+  <div class="nav-row">
+    <a href="/app/u/{{user.username}}/">
+      <div class="nav-icon col-mb-4">
+        <i class="fas fa-chart-area"></i>
+      </div>
+      <div class="nav-text col-mb-8">Dashboard</div>
+    </a>
+  </div>
+  <div class="nav-row ">
+    <a href="/app/ready_tests/{{user.username}}">
+      <div class="nav-icon col-mb-4">
+        <i class="fas fa-list-ul"></i>
+      </div>
+      <div class="nav-text col-mb-8">Take Test</div>
+    </a>
+  </div>
+
+  {% endif %}
+  </div>
+
+  <div  class="col-md-8 inline-block " >
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div  class="col-md-2" ><br><br>
+      <div class="card mb-2 shadow-sm est-score-area">
+        <div class="card-body" style="padding-right:1em;">
+          <h5>Estimated Score</h5>
+          <p id="estimated_score" class="est-score">{{student.average_total}}</p>
+          <p class="hidden_if_no_data">This is your estimated score for if you were to take the test today.</p>
+          <p class="hidden_unless_no_data">You must have taken at least 3 exams to get scoring predictions.</p>
+        </div>
+      </div>
+      <div class="card mb-2 shadow-sm upload_area" style="padding-right:1em;">
+        <div class="card-body upload_area">
+          <p class="upload_test"><a href="/app/upload_test/"><i class="fas fa-file-import"></i>Import Student Test</a><br>
+          <p class="upload_test"><a href="/app/download/bsmith_test1.csv">  <i class="fa fa-download" aria-hidden="true"></i>Download Template</a></p>
+          <p class="upload_test"><a href="/app/create_test/"><i class="far fa-plus-square"></i>Create New Test</a></p>
+          <p class="upload_questions"><a href="/app/upload_questions/">  <i class="fas fa-file-import"></i>Import Questions</a></p>
+          <p class="upload_questions"><a href="/app/download/new_questions_december.csv">  <i class="fa fa-download" aria-hidden="true"></i>Download Template</a></p>
+          <p class="upload_questions"><a href="/app/create_question/"><i class="far fa-plus-square"></i>Create New Question</a></p>
+
+
+        </div>
+      </div>
+      <div class="card mb-2 shadow-sm qcounts" style="padding-right:1em;">
+        <div class="card-body">
+          <h5>Question Counts</h5><br>
+          {% for category in categories.all %}
+             <p class="qcount-text">{{category.category_name}}: {{category.cat_count}}</p>
+             {% endfor %}
+
+        </div>
+      </div>
+
+
+
+
+      </div>
+  </div>
+
+
+  </div>
+</section>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+</html>

@@ -136,3 +136,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'tests')
 LOGIN_REDIRECT_URL = '/app/home'
+
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

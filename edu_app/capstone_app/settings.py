@@ -27,7 +27,7 @@ SECRET_KEY = 'm)n7l&5ckr(q8s2rc%b(=0!w=3un4r!d_ijaeztux6zc&-mcuy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://kozura-tutorial.azurewebsites.net', 'https://kozura-tutorial-app.azurewebsites.net', 'https://kozura-capstone.azurewebsites.net/']
 
 
 # Application definition
